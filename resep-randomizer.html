@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Resep Randomizer</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        body {
+    background: #EFF8FF;
+    height: 80vh;
+    width: 100vw;
+    font-family: system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+.btn {
+    border: none;
+    border-radius: 3px;
+    margin: auto 0;
+    /* margin-left: 20%; */
+    padding: .75rem .75rem;
+    flex-shrink: 0;
+    cursor: pointer;
+    font-size: 20px;
+    letter-spacing: .5px;
+    transition: all .1s ease-in;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.08);
+    width: 90%;
+    /* height: 200%; */
+}
+.btn-primary:hover {
+    background: #3490DC;
+}
+.btn-primary {
+    background: #6CB2EB;
+    color: #fff;
+}
+
+#search-bar {
+    background: #FFF;
+    padding: 1rem;
+    margin: 30px;
+    margin-top: 50px;
+    margin-left: 0;
+    border-radius: 3px;
+    font-size: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.08);
+    width: 80%;
+    max-width: 900px;
+}
+
+li, p {
+    display: flex;
+    align-items: center;
+    line-height: 1.25;
+    letter-spacing: .7px;
+    color: #3D4852;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all .1s ease-in;
+}
+
+li:hover {
+    color: #22292F;
+}
+
+li input {
+    margin: 0 .5rem 0;
+}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="head">
+            <!-- 
+            GANTI JUDUL DISNIIII
+            -->
+            <h1> Pemilih Resep Acak</h1>
+            <p> Biar ga pusing mau masak apa</p>
+
+
+            <button @click="randomize" class="btn btn-primary"> Klik Disini</button>
+            <div v-if="touched">
+                <h3>2 Makanan Terpilih:</h3>
+                <ul v-for="picked in randomPick">
+                    <li> {{picked}} </li>
+               </ul>
+            </div>
+        </div>
+
+        <!-- <h3> Cari resep</h3> -->
+        <input type="text" placeholder="Cari Resep..." v-model="search" class="" name="" id="search-bar">
+        <div v-if="search">
+            <ul v-for="item in arrayFilter.slice(0,20)">
+                 <li> {{item}} </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+
+/*
+    RESEP DISINIIII
+*/           
+resep : [
+'Ikan balado',
+'Opor ayam',
+'Sayur asem',
+'Sayur sop',
+'Ayam cabe ijo',
+'Semur kuah daging',
+'Semur ayam',
+'Telur balado',
+'Ayam goreng tepung',
+'Mie goreng',
+'Rendang',
+'Nasi Uduk Lele',
+'Pempek',
+'Rawon',
+'Stimbut',
+'Ayam balado',
+'Udang teriyaki',
+'Sayur lodeh',
+'Soup Buntut',
+'Soup ayam sosis',
+'Soup kimlo'
+],
+            search:'',
+            randomBuffer:[],
+            randomPick:[],
+            touched:false
+        },
+        computed:{
+            arrayFilter() {
+            return this.resep.filter(judul => {
+                return judul.toLowerCase().includes(this.search.toLowerCase())}) 
+            }
+        },
+        methods: {
+            randomize(){
+                // Clears randomPick
+                this.randomPick = []
+                this.randomBuffer = [...this.resep]
+                this.touched = true
+                
+                let jumlahRandom = 2
+                for (var i=0; i< jumlahRandom; i++){
+                    let index = Math.floor(Math.random() * this.randomBuffer.length);
+                    this.randomPick.push(this.randomBuffer[index])
+                    this.randomBuffer.splice(index,1)
+                    console.log(this.randomBuffer);}
+                }            
+        }
+    
+    })
+    </script>
+    
+</body>
+</html>
